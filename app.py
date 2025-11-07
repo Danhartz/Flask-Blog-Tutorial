@@ -24,13 +24,16 @@ def get_db_connection():
 @app.route('/')
 def index():
     #get a connection to the database
+    conn = get_db_connection()
 
     #execute a query to read all posts form the posts table in the db
-    #close the connection
-    #send the posts to the index.html template to be displayed
-    
-    return "<h1>Welcome to Danny's Blog</h1>"
+    posts = conn.execute('SELECT * FROM posts').fetchall()
 
+    #close the connection
+    conn.close()
+
+    #send the posts to the index.html template to be displayed
+    return render_template('index.html', posts=posts)
 
 # route to create a post
 
